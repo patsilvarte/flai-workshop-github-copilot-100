@@ -39,46 +39,11 @@ header {
   text-align: center;
   padding: 20px 16px;
   margin-bottom: 24px;
-  background: linear-gradient(180deg, var(--poke-red) 50%, var(--poke-dark-red) 50%);
+  background: var(--poke-red);
   color: var(--poke-white);
   border-radius: 8px;
   border: var(--poke-border);
   box-shadow: 4px 4px 0 var(--poke-black);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Pokéball decorative circle */
-header::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--poke-white);
-  border: var(--poke-border);
-  z-index: 0;
-}
-header::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--poke-yellow);
-  border: var(--poke-border);
-  z-index: 1;
-}
-
-header h1, header h2, #header-email-container {
-  position: relative;
-  z-index: 2;
 }
 
 header h1 {
