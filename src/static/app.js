@@ -3,6 +3,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const activitySelect = document.getElementById("activity");
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
+  const activitySearch = document.getElementById("activity-search");
+
+  // Filter displayed activity cards based on search input
+  activitySearch.addEventListener("input", () => {
+    const query = activitySearch.value.toLowerCase().trim();
+    document.querySelectorAll(".activity-card").forEach((card) => {
+      const name = card.querySelector("h4").textContent.toLowerCase();
+      card.style.display = name.includes(query) ? "" : "none";
+    });
+  });
 
   // Function to fetch activities from API
   async function fetchActivities() {
