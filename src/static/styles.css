@@ -99,12 +99,47 @@ section h3 {
 }
 
 .participants-list li {
+  list-style: none;
   padding: 4px 10px;
   background-color: #e8f0fe;
   border-left: 3px solid #3949ab;
   border-radius: 3px;
   font-size: 0.875rem;
   color: #1a237e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.participant-email {
+  flex: 1;
+}
+
+.unregister-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 3px 5px;
+  margin-left: 8px;
+  opacity: 0.4;
+  border-radius: 4px;
+  transition: opacity 0.2s, background-color 0.2s, transform 0.15s;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unregister-btn:hover {
+  opacity: 1;
+  background-color: #ffebee;
+  transform: scale(1.2);
+}
+
+.unregister-btn:active {
+  transform: scale(0.95);
+  background-color: #ffcdd2;
 }
 
 .no-participants {
