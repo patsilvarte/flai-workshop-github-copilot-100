@@ -35,11 +35,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Refresh sidebar when email changes
+  // Update signup button states based on current email and cached activities
+  function updateSignupButtons() {
+    const email = headerEmail.value.trim().toLowerCase();
+    document.querySelectorAll(".signup-btn").forEach(btn => {
+      const activityName = btn.dataset.activity;
+      const details = window._cachedActivities && window._cachedActivities[activityName];
+      if (!details) return;
+
+      const spotsLeft = details.max_participants - details.participants.length;
+      const isFull = spotsLeft === 0;
+      const isEnrolled = email !== "" && details.participants.map(p => p.toLowerCase()).includes(email);
+
+      btn.disabled = isFull || isEnrolled;
+      btn.textContent = isFull ? "Activity Full" : isEnrolled ? "Already Enrolled" : "Sign Up";
+    });
+  }
+
+  // Refresh sidebar and button states when email changes
   headerEmail.addEventListener("input", () => {
     // Re-use cached activities if available, otherwise fetch
     if (window._cachedActivities) {
       updateMySidebar(window._cachedActivities);
+      updateSignupButtons();
     }
   });
 
@@ -163,6 +181,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
         const isFull = spotsLeft === 0;
+        const currentEmail = headerEmail.value.trim().toLowerCase();
+        const isEnrolled = currentEmail !== "" && details.participants.map(p => p.toLowerCase()).includes(currentEmail);
 
         const participantsHTML = details.participants.length > 0
           ? `<ul class="participants-list">${details.participants.map(p => `<li><span class="participant-email">${p}</span><button class="unregister-btn" data-activity="${name}" data-email="${p}" title="Unregister participant">🗑</button></li>`).join("")}</ul>`
@@ -177,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <strong>Participants:</strong>
             ${participantsHTML}
           </div>
-          <button class="signup-btn" data-activity="${name}" ${isFull ? 'disabled' : ''}>${isFull ? 'Activity Full' : 'Sign Up'}</button>
+          <button class="signup-btn" data-activity="${name}" ${isFull || isEnrolled ? 'disabled' : ''}>${isFull ? 'Activity Full' : isEnrolled ? 'Already Enrolled' : 'Sign Up'}</button>
         `;
 
         activitiesList.appendChild(activityCard);
