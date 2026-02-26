@@ -139,9 +139,82 @@ header h2 {
 
 main {
   display: flex;
-  flex-wrap: wrap;
   gap: 24px;
-  justify-content: center;
+  align-items: flex-start;
+}
+
+/* ===== SIDEBAR ===== */
+#my-sidebar {
+  width: 260px;
+  min-width: 220px;
+  flex-shrink: 0;
+  background-color: var(--poke-white);
+  padding: 20px;
+  border-radius: 8px;
+  border: var(--poke-border);
+  box-shadow: 5px 5px 0 var(--poke-black);
+  position: sticky;
+  top: 16px;
+}
+
+#my-sidebar h3 {
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--poke-blue);
+  color: var(--poke-blue);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.12);
+}
+
+#my-activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.my-activity-item {
+  padding: 10px;
+  border: 2px solid var(--poke-black);
+  border-radius: 6px;
+  background: linear-gradient(135deg, #e8edff 60%, #fffde7 100%);
+  box-shadow: 3px 3px 0 var(--poke-black);
+  position: relative;
+  overflow: hidden;
+}
+
+.my-activity-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--poke-blue) 50%, var(--poke-yellow) 50%);
+  border-radius: 4px 4px 0 0;
+}
+
+.my-activity-item strong {
+  display: block;
+  font-size: 0.48rem;
+  color: var(--poke-blue);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.my-activity-item span {
+  display: block;
+  font-size: 0.4rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.no-activities {
+  font-size: 0.42rem;
+  color: #999;
+  font-style: italic;
+  line-height: 1.8;
 }
 
 section {
@@ -150,8 +223,18 @@ section {
   border-radius: 8px;
   border: var(--poke-border);
   box-shadow: 5px 5px 0 var(--poke-black);
-  width: 100%;
-  max-width: 1360px;
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  main {
+    flex-direction: column;
+  }
+  #my-sidebar {
+    width: 100%;
+    position: static;
+  }
 }
 
 section h3 {

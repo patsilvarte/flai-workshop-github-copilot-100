@@ -3,6 +3,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const activitySearch = document.getElementById("activity-search");
   const headerEmail = document.getElementById("header-email");
   const messageDiv = document.getElementById("message");
+  const myActivitiesList = document.getElementById("my-activities-list");
+
+  // Update the sidebar with activities the current user is signed up for
+  function updateMySidebar(activities) {
+    const email = headerEmail.value.trim().toLowerCase();
+    myActivitiesList.innerHTML = "";
+
+    if (!email) {
+      myActivitiesList.innerHTML = '<p class="no-activities">Enter your email above to see activities you\'ve joined.</p>';
+      return;
+    }
+
+    const joined = Object.entries(activities).filter(([, details]) =>
+      details.participants.map(p => p.toLowerCase()).includes(email)
+    );
+
+    if (joined.length === 0) {
+      myActivitiesList.innerHTML = '<p class="no-activities">You haven\'t joined any activities yet.</p>';
+      return;
+    }
+
+    joined.forEach(([name, details]) => {
+      const item = document.createElement("div");
+      item.className = "my-activity-item";
+      item.innerHTML = `
+        <strong>${name}</strong>
+        <span>${details.schedule}</span>
+      `;
+      myActivitiesList.appendChild(item);
+    });
+  }
+
+  // Refresh sidebar when email changes
+  headerEmail.addEventListener("input", () => {
+    // Re-use cached activities if available, otherwise fetch
+    if (window._cachedActivities) {
+      updateMySidebar(window._cachedActivities);
+    }
+  });
 
   // Modal elements
   const signupModal = document.getElementById("signup-modal");
@@ -113,8 +152,10 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await fetch("/activities");
       const activities = await response.json();
+      window._cachedActivities = activities;
 
       activitiesList.innerHTML = "";
+      updateMySidebar(activities);
 
       Object.entries(activities).forEach(([name, details]) => {
         const activityCard = document.createElement("div");
